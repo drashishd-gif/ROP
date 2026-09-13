@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ROP Detection</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <main>
+    <h1>Retinopathy of Prematurity (ROP) Detection</h1>
+    <p class="subtitle">
+      Runs on a custom CNN trained locally from scratch — no external AI API is used.
+    </p>
+
+    {% if not model_ready %}
+      <div class="banner warning">
+        No trained model found at <code>{{ checkpoint_path }}</code>.
+        Train one with <code>python -m rop.train</code> after preparing your dataset
+        (see <code>scripts/prepare_kaggle_data.py</code> for a Kaggle dataset).
+      </div>
+    {% endif %}
+
+    {% if error %}
+      <div class="banner error">{{ error }}</div>
+    {% endif %}
+
+    <form method="post" enctype="multipart/form-data" class="upload-form">
+      <input type="file" name="image" accept="image/*" required>
+      <button type="submit" {% if not model_ready %}disabled{% endif %}>Analyze image</button>
+    </form>
+
+    {% if result %}
+      <section class="result">
+        <div class="images">
+          <div>
+            <h3>Uploaded image</h3>
+            <img src="{{ image_url }}" alt="Uploaded fundus image">
+          </div>
+          {% if heatmap_url %}
+          <div>
+            <h3>Model attention (Grad-CAM)</h3>
+            <img src="{{ heatmap_url }}" alt="Grad-CAM heatmap">
+          </div>
+          {% endif %}
+        </div>
+
+        <div class="prediction {{ 'positive' if result.predicted_class|lower != 'no_rop' else 'negative' }}">
+          <h2>Prediction: {{ result.predicted_class }}</h2>
+          <p>Confidence: {{ "%.1f"|format(result.confidence * 100) }}%</p>
+        </div>
+
+        <table class="probs">
+          <thead><tr><th>Class</th><th>Probability</th></tr></thead>
+          <tbody>
+            {% for name, p in result.probabilities.items() %}
+            <tr>
+              <td>{{ name }}</td>
+              <td>
+                <div class="bar-track"><div class="bar-fill" style="width: {{ (p*100)|round(1) }}%"></div></div>
+                {{ "%.1f"|format(p * 100) }}%
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+
+        <p class="disclaimer">
+          This is a research/education tool, not a medical device. Diagnosis of ROP
+          must always be made by a qualified ophthalmologist.
+        </p>
+      </section>
+    {% endif %}
+  </main>
+</body>
+</html>

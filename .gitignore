@@ -1,0 +1,16 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+data/raw/
+data/train/
+data/val/
+data/test/
+checkpoints/*.pt
+checkpoints/*.pth
+static/uploads/*
+!static/uploads/.gitkeep
+*.egg-info/
+.DS_Store
+runs/
+logs/
