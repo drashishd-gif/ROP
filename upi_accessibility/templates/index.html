@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Accessible UPI Pay — Demo</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
+<header>
+  <h1>Accessible UPI Pay <span class="badge">Demo — simulated, not real money</span></h1>
+  <button id="contrast-toggle" type="button" aria-pressed="false">
+    Turn on high-contrast, large-text mode
+  </button>
+</header>
+
+<main id="main-content">
+  <section aria-labelledby="balance-heading">
+    <h2 id="balance-heading">Your balance</h2>
+    <p id="balance" aria-live="polite">₹{{ '%.2f'|format(balance) }}</p>
+  </section>
+
+  <section aria-labelledby="pay-heading">
+    <h2 id="pay-heading">Send money</h2>
+
+    <form id="pay-form" novalidate>
+      <fieldset>
+        <legend>1. Choose who to pay</legend>
+
+        <label for="contact-select">Pick a saved contact</label>
+        <select id="contact-select" name="contact_id">
+          <option value="">-- Choose a contact --</option>
+          {% for c in contacts %}
+          <option value="{{ c.id }}">{{ c.name }} ({{ c.upi_id }})</option>
+          {% endfor %}
+        </select>
+
+        <p class="or-divider">or</p>
+
+        <label for="upi-id-input">Type or speak a UPI ID</label>
+        <div class="input-with-mic">
+          <input type="text" id="upi-id-input" name="upi_id" placeholder="example@bank" autocomplete="off">
+          <button type="button" class="mic-btn" data-target="upi-id-input" aria-label="Speak the UPI ID">🎤</button>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>2. Enter the amount</legend>
+        <label for="amount-input">Amount in rupees</label>
+        <div class="input-with-mic">
+          <input type="number" id="amount-input" name="amount" min="0" step="0.01" inputmode="decimal">
+          <button type="button" class="mic-btn" data-target="amount-input" aria-label="Speak the amount">🎤</button>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>3. Optional note</legend>
+        <label for="note-input">Note (optional)</label>
+        <input type="text" id="note-input" name="note" autocomplete="off">
+      </fieldset>
+
+      <button type="submit" id="review-btn">Review payment</button>
+    </form>
+  </section>
+
+  <section aria-labelledby="confirm-heading" id="confirm-section" hidden>
+    <h2 id="confirm-heading">Confirm payment</h2>
+    <p id="confirm-text" role="status" aria-live="assertive"></p>
+    <div class="confirm-actions">
+      <button type="button" id="confirm-btn">Confirm and send</button>
+      <button type="button" id="cancel-btn">Cancel</button>
+    </div>
+  </section>
+
+  <section aria-live="assertive" id="result-section" role="status"></section>
+
+  <section aria-labelledby="history-heading">
+    <h2 id="history-heading">Recent transactions</h2>
+    <ul id="history-list" aria-live="polite"></ul>
+  </section>
+</main>
+
+<div id="sr-announcer" class="visually-hidden" role="status" aria-live="polite"></div>
+
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

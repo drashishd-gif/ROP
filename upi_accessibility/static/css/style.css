@@ -1,0 +1,173 @@
+:root {
+  --bg: #ffffff;
+  --fg: #111111;
+  --accent: #0b5fff;
+  --border: #767676;
+  --error: #b00020;
+  --success: #0a7d2c;
+  --font-size: 16px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: system-ui, Arial, sans-serif;
+  font-size: var(--font-size);
+  line-height: 1.5;
+  margin: 0;
+  padding: 1rem;
+  max-width: 640px;
+  margin-inline: auto;
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  background: var(--accent);
+  color: #fff;
+  padding: 0.5rem 1rem;
+  z-index: 10;
+}
+.skip-link:focus {
+  left: 0.5rem;
+  top: 0.5rem;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid var(--border);
+  padding-bottom: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.badge {
+  display: block;
+  font-size: 0.6em;
+  font-weight: normal;
+  color: #555;
+}
+
+fieldset {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  padding: 0.75rem 1rem 1rem;
+}
+
+legend {
+  font-weight: bold;
+  padding: 0 0.4rem;
+}
+
+label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+input, select, button {
+  font-size: 1em;
+  padding: 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  width: 100%;
+  margin-bottom: 0.75rem;
+}
+
+.input-with-mic {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+.input-with-mic input { margin-bottom: 0; }
+.mic-btn {
+  width: auto;
+  flex: 0 0 auto;
+  padding: 0.6rem 0.9rem;
+}
+
+button {
+  cursor: pointer;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  font-weight: 600;
+}
+button:hover, button:focus-visible {
+  filter: brightness(1.1);
+}
+
+/* Always-visible, high-contrast focus ring — critical for keyboard/screen-reader users */
+:focus-visible {
+  outline: 3px solid #ff9800;
+  outline-offset: 2px;
+}
+
+#cancel-btn {
+  background: #555;
+}
+
+.or-divider {
+  text-align: center;
+  color: #555;
+  margin: 0.5rem 0;
+}
+
+#balance {
+  font-size: 1.6em;
+  font-weight: bold;
+}
+
+#result-section {
+  min-height: 1.5em;
+  font-weight: bold;
+  margin: 1rem 0;
+}
+#result-section.success { color: var(--success); }
+#result-section.error { color: var(--error); }
+
+#history-list {
+  list-style: none;
+  padding: 0;
+}
+#history-list li {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.6rem;
+  margin-bottom: 0.5rem;
+}
+
+/* High-contrast / large-text mode, toggled via JS by adding this class to <body> */
+body.high-contrast {
+  --bg: #000000;
+  --fg: #ffffff;
+  --accent: #ffdd00;
+  --border: #ffffff;
+  --error: #ff6b6b;
+  --success: #7CFC00;
+  --font-size: 22px;
+}
+body.high-contrast button {
+  color: #000000;
+}
+body.high-contrast input,
+body.high-contrast select {
+  background: #000000;
+  color: #ffffff;
+}

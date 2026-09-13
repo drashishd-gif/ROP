@@ -110,6 +110,13 @@ fully-connected classifier head with dropout. It's intentionally lightweight
 so it trains reasonably fast on a single GPU (or CPU, for smaller datasets),
 and every weight comes purely from the data you train it on.
 
+## Other demos in this repo
+
+- `upi_accessibility/` — an unrelated prototype: an accessible UPI payment
+  flow demo for blind/low-vision users (spoken confirmation, voice input,
+  audio cues, high-contrast mode). See `upi_accessibility/README.md`. It's a
+  simulated payment flow, not connected to the ROP model or any real bank.
+
 ## Disclaimer
 
 This is a research/educational tool only. It is **not** a certified medical
